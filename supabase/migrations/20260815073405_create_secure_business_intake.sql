@@ -2,8 +2,8 @@ create extension if not exists pgcrypto;
 
 create table public.business_requests (
   id uuid primary key default gen_random_uuid(),
-  brand text not null check (brand in ('adintecho', 'adelpro')),
-  request_type text not null check (request_type in ('lead', 'contact', 'emergency')),
+  brand text not null check (brand = 'adelpro'),
+  request_type text not null check (request_type in ('contact', 'emergency')),
   idempotency_key uuid not null,
   name text,
   email text,
@@ -30,11 +30,7 @@ create table public.business_requests (
   check (plan is null or char_length(plan) <= 80),
   check (service_type is null or char_length(service_type) <= 100),
   check (county is null or county in ('Los Angeles', 'Orange')),
-  check (
-    (brand = 'adintecho' and request_type in ('lead', 'contact'))
-    or
-    (brand = 'adelpro' and request_type in ('contact', 'emergency'))
-  )
+  check (brand = 'adelpro' and request_type in ('contact', 'emergency'))
 );
 
 create table public.request_events (
