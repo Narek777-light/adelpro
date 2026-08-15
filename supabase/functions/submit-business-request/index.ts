@@ -2,7 +2,6 @@ import { createClient } from "npm:@supabase/supabase-js@2.112.3";
 
 const allowedOrigins = new Set([
   "https://adelpro.com",
-  "https://adintecho.com",
   "http://localhost:3000",
   "http://localhost:8000",
 ]);
@@ -214,11 +213,8 @@ Deno.serve(async (request) => {
   const requestType = text(body.requestType, 20);
   const idempotencyKey = text(body.idempotencyKey, 36);
   if (!idempotencyKey || !uuidPattern.test(idempotencyKey)) return json(origin, 400, { error: "Invalid request ID" });
-  if (!brand || !requestType) return json(origin, 400, { error: "Missing request type" });
-  if (
-    !((brand === "adintecho" && ["lead", "contact"].includes(requestType)) ||
-      (brand === "adelpro" && ["contact", "emergency"].includes(requestType)))
-  ) return json(origin, 400, { error: "Invalid request type" });
+  if (brand !== "adelpro" || !requestType) return json(origin, 400, { error: "Invalid request type" });
+  if (!["contact", "emergency"].includes(requestType)) return json(origin, 400, { error: "Invalid request type" });
 
   const name = text(body.name, 120);
   const email = text(body.email, 254)?.toLowerCase() ?? null;
@@ -281,7 +277,7 @@ Deno.serve(async (request) => {
     source: origin,
     ip_hash: ipHash,
     user_agent_hash: userAgentHash,
-    notification_status: brand === "adelpro" ? "pending" : "not_configured",
+    notification_status: "pending",
   };
 
   const { data, error } = await supabase
@@ -306,7 +302,7 @@ Deno.serve(async (request) => {
   }
 
   if (!saved) return json(origin, 500, { error: "We could not save your request. Please call us directly." });
-  if (brand === "adelpro" && isNew) {
+  if (isNew) {
     try {
       const providerMessageId = await sendAdelproNotification(requestType, saved.id, saved.created_at, {
         name,
