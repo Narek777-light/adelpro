@@ -888,6 +888,7 @@
                         </div>
 
                         <form id="emergency-form" class="space-y-4" onsubmit="handleEmergencySubmit(event)">
+                            <input type="text" id="em-website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
                             <div>
                                 <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Primary Phone Number</label>
                                 <input type="tel" id="em-phone" placeholder="e.g. (818)-815-7755" required class="w-full bg-brand-navyDark text-white border border-brand-navyLight px-4 py-3 rounded-xl focus:border-brand-red focus:outline-none text-sm font-semibold transition-all">
@@ -898,7 +899,7 @@
                                     <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Service County</label>
                                     <select id="em-county" required class="w-full bg-brand-navyDark text-white border border-brand-navyLight px-4 py-3 rounded-xl focus:border-brand-red focus:outline-none text-sm font-semibold transition-all">
                                         <option value="Los Angeles">Los Angeles</option>
-                                        <option value="Orange County">Orange County</option>
+                                        <option value="Orange">Orange County</option>
                                     </select>
                                 </div>
                                 <div>
@@ -920,6 +921,7 @@
                             <button type="submit" class="btn-shine w-full bg-brand-cyan hover:bg-white text-brand-navy py-4 rounded-xl text-sm font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-neon-blue">
                                 <i class="fa-solid fa-paper-plane"></i> DISPATCH NOW
                             </button>
+                            <p id="em-status" class="text-xs text-gray-300" role="status" aria-live="polite"></p>
                         </form>
 
                         <!-- Hidden Success Modal / Box -->
@@ -928,8 +930,8 @@
                                 <i class="fa-solid fa-truck-fast"></i>
                             </div>
                             <div>
-                                <h5 class="text-white font-extrabold text-lg">Dispatch Request Active!</h5>
-                                <p class="text-xs text-gray-300 px-4">An Adelpro technician will call you on <strong id="em-active-phone" class="text-brand-cyan"></strong> in the next 10 minutes to verify details and coordinate immediate arrival.</p>
+                                <h5 class="text-white font-extrabold text-lg">Emergency Request Received</h5>
+                                <p class="text-xs text-gray-300 px-4">Your request was securely recorded for <strong id="em-active-phone" class="text-brand-cyan"></strong>. For fire, smoke, immediate danger, or if you do not hear back promptly, call 911 and Adelpro directly at <a href="tel:8188157755" class="text-brand-cyan underline">(818) 815-7755</a>.</p>
                             </div>
                             <button onclick="resetEmForm()" class="text-xs text-brand-cyan hover:underline font-bold uppercase">Back to Dispatch Form</button>
                         </div>
@@ -1111,6 +1113,7 @@
 
                 <div class="bg-brand-navyDark/90 border border-brand-navy p-8 md:p-12 rounded-3xl shadow-2xl">
                     <form id="contact-form" class="space-y-6" onsubmit="handleContactSubmit(event)">
+                        <input type="text" id="co-website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -1152,13 +1155,14 @@
 
                         <div class="flex items-center gap-3">
                             <input type="checkbox" id="co-terms" required class="rounded border-gray-600 text-brand-cyan focus:ring-brand-cyan bg-brand-navy">
-                            <label for="co-terms" class="text-xs text-gray-400">I verify that this is a safe non-outage inquiry. For active fire or hazardous sparks, call the emergency hotline directly.</label>
+                            <label for="co-terms" class="text-xs text-gray-400">I consent to Adelpro securely storing these details to respond to this request. This is a safe non-outage inquiry; for fire or hazardous sparks, call 911 and the emergency hotline directly.</label>
                         </div>
 
                         <div class="pt-2 text-center md:text-left">
                             <button type="submit" class="btn-shine w-full md:w-auto bg-brand-cyan hover:bg-brand-navyLight hover:text-white text-brand-navy px-12 py-4 rounded-xl text-sm font-black uppercase tracking-wider transition-all duration-300 shadow-neon-blue inline-flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-calendar-check"></i> REQUEST APPOINTMENT
                             </button>
+                            <p id="co-status" class="mt-3 text-xs text-gray-300" role="status" aria-live="polite"></p>
                         </div>
 
                     </form>
@@ -1170,7 +1174,7 @@
                         </div>
                         <div>
                             <h4 class="header-font text-2xl font-black text-white">Consultation Request Placed!</h4>
-                            <p class="text-sm text-gray-300 max-w-md mx-auto mt-2">Thank you, <strong id="co-success-name"></strong>! We received your details and are cross-referencing on-call times. You will receive an email confirmation at <span id="co-success-email" class="text-brand-cyan"></span> shortly.</p>
+                            <p class="text-sm text-gray-300 max-w-md mx-auto mt-2">Thank you, <strong id="co-success-name"></strong>! Your request was securely recorded. Adelpro will use <span id="co-success-email" class="text-brand-cyan"></span> to follow up; for urgent help, call <a href="tel:8188157755" class="text-brand-cyan underline">(818) 815-7755</a>.</p>
                         </div>
                         <button onclick="resetBookingForm()" class="text-xs text-brand-cyan hover:underline font-bold uppercase">Submit Another Ticket</button>
                     </div>
@@ -1345,14 +1349,46 @@
             document.getElementById('co-message').value = "Hello Adelpro, I ran your online Smart Amperage Estimator. It suggested that my home setup requires a professional panel upgrade. I would like to schedule an inspection.";
         }
 
-        // Handle Emergency Form Submission (Mock simulation with live UI state)
-        function handleEmergencySubmit(e) {
+        const INTAKE_ENDPOINT = 'https://fgizrphujtnoluqxbjlb.supabase.co/functions/v1/submit-business-request';
+
+        async function submitBusinessRequest(payload) {
+            const response = await fetch(INTAKE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...payload, idempotencyKey: crypto.randomUUID() })
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.error || 'Request could not be saved');
+            return result;
+        }
+
+        // Securely save emergency requests before showing confirmation.
+        async function handleEmergencySubmit(e) {
             e.preventDefault();
+            const form = e.currentTarget;
+            const button = form.querySelector('button[type="submit"]');
+            const status = document.getElementById('em-status');
             const phone = document.getElementById('em-phone').value;
-            
-            document.getElementById('emergency-form').classList.add('hidden');
-            document.getElementById('em-success').classList.remove('hidden');
-            document.getElementById('em-active-phone').innerText = phone;
+            button.disabled = true;
+            status.textContent = 'Securely sending your request…';
+            try {
+                await submitBusinessRequest({
+                    brand: 'adelpro',
+                    requestType: 'emergency',
+                    phone,
+                    county: document.getElementById('em-county').value,
+                    issueClass: document.getElementById('em-issue').value,
+                    message: document.getElementById('em-desc').value,
+                    website: document.getElementById('em-website').value
+                });
+                form.classList.add('hidden');
+                document.getElementById('em-success').classList.remove('hidden');
+                document.getElementById('em-active-phone').innerText = phone;
+            } catch (error) {
+                status.innerHTML = `${error.message}. Please call <a class="text-brand-cyan underline" href="tel:8188157755">(818) 815-7755</a>.`;
+            } finally {
+                button.disabled = false;
+            }
         }
 
         function resetEmForm() {
@@ -1361,16 +1397,38 @@
             document.getElementById('em-success').classList.add('hidden');
         }
 
-        // Handle standard contact submission
-        function handleContactSubmit(e) {
+        // Securely save contact requests before showing confirmation.
+        async function handleContactSubmit(e) {
             e.preventDefault();
+            const form = e.currentTarget;
+            const button = form.querySelector('button[type="submit"]');
+            const status = document.getElementById('co-status');
             const name = document.getElementById('co-name').value;
             const email = document.getElementById('co-email').value;
-
-            document.getElementById('contact-form').classList.add('hidden');
-            document.getElementById('booking-success').classList.remove('hidden');
-            document.getElementById('co-success-name').innerText = name;
-            document.getElementById('co-success-email').innerText = email;
+            button.disabled = true;
+            status.textContent = 'Securely sending your request…';
+            try {
+                await submitBusinessRequest({
+                    brand: 'adelpro',
+                    requestType: 'contact',
+                    name,
+                    email,
+                    phone: document.getElementById('co-phone').value,
+                    serviceType: document.getElementById('co-service').value,
+                    preferredDate: document.getElementById('co-date').value,
+                    message: document.getElementById('co-message').value,
+                    consent: document.getElementById('co-terms').checked,
+                    website: document.getElementById('co-website').value
+                });
+                form.classList.add('hidden');
+                document.getElementById('booking-success').classList.remove('hidden');
+                document.getElementById('co-success-name').innerText = name;
+                document.getElementById('co-success-email').innerText = email;
+            } catch (error) {
+                status.innerHTML = `${error.message}. Please call <a class="text-brand-cyan underline" href="tel:8188157755">(818) 815-7755</a>.`;
+            } finally {
+                button.disabled = false;
+            }
         }
 
         function resetBookingForm() {
