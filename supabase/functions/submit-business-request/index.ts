@@ -98,6 +98,65 @@ async function sendAdelproNotification(
   return String(result.id);
 }
 
+function adelproCustomerConfirmationContent(
+  requestId: string,
+  createdAt: string,
+  fields: Record<string, unknown>,
+) {
+  const customerName = escapeHtml(display(fields.name));
+  const rows = [
+    ["Service", fields.serviceType],
+    ["Preferred date", fields.preferredDate],
+    ["Phone", fields.phone],
+    ["Email", fields.email],
+    ["Request details", fields.message],
+  ];
+  const rowHtml = rows.map(([label, value]) => `
+    <tr>
+      <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;color:#64748b;font-size:13px;width:32%;vertical-align:top">${escapeHtml(label)}</td>
+      <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;color:#0f172a;font-size:14px;white-space:pre-wrap;word-break:break-word">${escapeHtml(display(value))}</td>
+    </tr>`).join("");
+  const plainRows = rows.map(([label, value]) => `${label}: ${display(value)}`).join("\n");
+  const submittedAt = new Date(createdAt).toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+  const subject = "We received your Adelpro consultation request";
+  const html = `<!doctype html><html><body style="margin:0;background:#f1f5f9;font-family:Arial,sans-serif;color:#0f172a"><div style="display:none;max-height:0;overflow:hidden">Your Adelpro request has been securely received.</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f1f5f9;padding:28px 12px"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(15,23,42,.09)"><tr><td style="background:#071827;padding:24px 28px;text-align:center"><img src="${adelproLogo}" width="180" alt="Adelpro" style="display:inline-block;max-width:180px;height:auto"></td></tr><tr><td style="padding:30px 28px"><div style="display:inline-block;background:#0891b2;color:#fff;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.05em">Request received</div><h1 style="margin:17px 0 10px;font-size:25px;line-height:1.25">Thank you, ${customerName}.</h1><p style="margin:0 0 14px;color:#334155;font-size:15px;line-height:1.65">We have securely received your consultation request. An Adelpro representative will review the details and contact you using the information you provided.</p><div style="margin:18px 0;padding:14px 16px;border-left:4px solid #0891b2;background:#ecfeff;color:#164e63;font-size:13px;line-height:1.55"><strong>Please note:</strong> this message confirms receipt only. Your appointment is not scheduled until an Adelpro representative confirms availability with you.</div><p style="margin:20px 0 8px;color:#64748b;font-size:13px">Request ${escapeHtml(requestId)} · ${escapeHtml(submittedAt)} PT</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e5e7eb;border-radius:10px;overflow:hidden">${rowHtml}</table><p style="margin:22px 0 0;color:#475569;font-size:13px;line-height:1.6">Need to update your request? Reply to this email or call <a href="tel:+18188157755" style="color:#0891b2;font-weight:bold;text-decoration:none">${adelproPhone}</a>. For fire, smoke, injury, or immediate danger, call 911.</p></td></tr><tr><td style="background:#071827;padding:22px 28px;text-align:center"><img src="${adelproLogo}" width="132" alt="Adelpro" style="display:inline-block;max-width:132px;height:auto"><p style="margin:12px 0 0;color:#cbd5e1;font-size:13px;line-height:1.7"><a href="tel:+18188157755" style="color:#67e8f9;text-decoration:none">${adelproPhone}</a><br><a href="mailto:${adelproEmail}" style="color:#67e8f9;text-decoration:none">${adelproEmail}</a></p></td></tr></table></td></tr></table></body></html>`;
+  const plain = `Thank you, ${display(fields.name)}.\n\nWe have securely received your Adelpro consultation request. An Adelpro representative will review the details and contact you using the information you provided.\n\nPlease note: this message confirms receipt only. Your appointment is not scheduled until an Adelpro representative confirms availability with you.\n\n${plainRows}\n\nRequest ID: ${requestId}\nSubmitted: ${submittedAt} PT\n\nNeed to update your request? Reply to this email or call ${adelproPhone}. For fire, smoke, injury, or immediate danger, call 911.\n\nAdelpro\n${adelproPhone}\n${adelproEmail}`;
+  return { subject, html, plain };
+}
+
+async function sendAdelproCustomerConfirmation(
+  requestId: string,
+  createdAt: string,
+  fields: Record<string, unknown>,
+) {
+  const apiKey = Deno.env.get("RESEND_API_KEY");
+  if (!apiKey) throw new Error("RESEND_API_KEY is not configured");
+  const content = adelproCustomerConfirmationContent(requestId, createdAt, fields);
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": `adelpro-customer-confirmation-${requestId}`,
+    },
+    body: JSON.stringify({
+      from: "Adelpro <notifications@mail.adelpro.com>",
+      to: [fields.email],
+      reply_to: adelproEmail,
+      subject: content.subject,
+      html: content.html,
+      text: content.plain,
+    }),
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || !result?.id) throw new Error(`Resend returned ${response.status}`);
+  return String(result.id);
+}
+
 function corsHeaders(origin: string) {
   return {
     "Access-Control-Allow-Origin": origin,
@@ -279,6 +338,34 @@ Deno.serve(async (request) => {
           detail: { reason: "provider_error" },
         }),
       ]);
+    }
+
+    if (requestType === "contact" && email) {
+      try {
+        const confirmationMessageId = await sendAdelproCustomerConfirmation(saved.id, saved.created_at, {
+          name,
+          email,
+          phone,
+          serviceType,
+          preferredDate,
+          message,
+        });
+        await supabase.from("request_events").insert({
+          request_id: saved.id,
+          event_type: "notification_sent",
+          provider: "resend",
+          provider_message_id: confirmationMessageId,
+          detail: { recipient_kind: "customer_confirmation" },
+        });
+      } catch (confirmationError) {
+        console.error("Adelpro customer confirmation failed", confirmationError instanceof Error ? confirmationError.message : "Unknown error");
+        await supabase.from("request_events").insert({
+          request_id: saved.id,
+          event_type: "notification_failed",
+          provider: "resend",
+          detail: { reason: "customer_confirmation_provider_error", recipient_kind: "customer_confirmation" },
+        });
+      }
     }
   }
   return json(origin, 201, { accepted: true, requestId: saved.id, createdAt: saved.created_at });
