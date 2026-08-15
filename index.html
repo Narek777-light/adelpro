@@ -3,7 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adelpro | Advanced Electrical Protection</title>
+    <title>Electrician in Los Angeles &amp; Orange County | Adelpro</title>
+    <meta name="description" content="Adelpro provides residential, commercial, industrial, and emergency electrical services across Los Angeles and Orange County. Call (818) 815-7755.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Advanced Electrical Protection (Adelpro)">
+    <meta name="theme-color" content="#050c1e">
+    <link rel="canonical" href="https://adelpro.com/">
+    <link rel="alternate" hreflang="en-us" href="https://adelpro.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Adelpro">
+    <meta property="og:title" content="Adelpro | Electrical Services in Los Angeles &amp; Orange County">
+    <meta property="og:description" content="Residential, commercial, industrial, and emergency electrical services across Los Angeles and Orange County.">
+    <meta property="og:url" content="https://adelpro.com/">
+    <meta property="og:image" content="https://adelpro.com/assets/adelpro-logo.png">
+    <meta property="og:image:alt" content="Adelpro — Advanced Electrical Protection">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Adelpro | Electrical Services in Los Angeles &amp; Orange County">
+    <meta name="twitter:description" content="Electrical protection, repairs, upgrades, diagnostics, and emergency requests for homes and businesses.">
+    <meta name="twitter:image" content="https://adelpro.com/assets/adelpro-logo.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Electrician",
+          "@id": "https://adelpro.com/#business",
+          "name": "Advanced Electrical Protection (Adelpro)",
+          "alternateName": "Adelpro",
+          "url": "https://adelpro.com/",
+          "logo": "https://adelpro.com/assets/adelpro-logo.png",
+          "image": "https://adelpro.com/assets/adelpro-logo.png",
+          "telephone": "+1-818-815-7755",
+          "email": "adelpro1st@gmail.com",
+          "description": "Electrical services for residential, commercial, and industrial properties in Los Angeles County and Orange County, California.",
+          "areaServed": [
+            {"@type": "AdministrativeArea", "name": "Los Angeles County, California"},
+            {"@type": "AdministrativeArea", "name": "Orange County, California"}
+          ],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "telephone": "+1-818-815-7755",
+            "contactType": "customer service",
+            "areaServed": "US-CA",
+            "availableLanguage": "English"
+          }],
+          "sameAs": ["https://www.instagram.com/adelpro.official/"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://adelpro.com/#website",
+          "url": "https://adelpro.com/",
+          "name": "Adelpro",
+          "publisher": {"@id": "https://adelpro.com/#business"},
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://adelpro.com/#faq",
+          "mainEntity": [
+            {"@type":"Question","name":"What electrical services does Adelpro provide?","acceptedAnswer":{"@type":"Answer","text":"Adelpro handles residential, commercial, and industrial electrical work, including panel upgrades, surge protection, generator systems, diagnostics, repairs, and electrical system design."}},
+            {"@type":"Question","name":"What areas does Adelpro serve?","acceptedAnswer":{"@type":"Answer","text":"Adelpro serves properties across Los Angeles County and Orange County, California. Call to confirm availability for a specific address."}},
+            {"@type":"Question","name":"How do I request emergency electrical help?","acceptedAnswer":{"@type":"Answer","text":"Call Adelpro at (818) 815-7755 or use the emergency request form. For fire, smoke, or immediate danger, leave the area and call 911 first."}},
+            {"@type":"Question","name":"How can I request an estimate or appointment?","acceptedAnswer":{"@type":"Answer","text":"Use the consultation form with your contact details, service type, preferred date, and project description. Adelpro will review the request and follow up."}}
+          ]
+        }
+      ]
+    }
+    </script>
     <link rel="icon" type="image/png" href="assets/adelpro-logo.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -195,9 +261,13 @@
             pointer-events: auto;
             transform: translateY(0) scale(1);
         }
+        .skip-link { position: fixed; left: 1rem; top: 1rem; z-index: 10000; transform: translateY(-180%); background: #fff; color: #050c1e; padding: .75rem 1rem; border-radius: .5rem; font-weight: 800; }
+        .skip-link:focus { transform: translateY(0); }
+        :focus-visible { outline: 3px solid #00d2ff; outline-offset: 3px; }
     </style>
 </head>
 <body class="relative min-h-screen grid-bg selection:bg-brand-red selection:text-white">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <!-- Spark Canvas for Interaction -->
     <canvas id="spark-canvas" class="sparkle-canvas"></canvas>
@@ -230,22 +300,18 @@
     <div class="bg-brand-navyDark border-b border-brand-navy/60 py-2 overflow-hidden relative z-30">
         <div class="marquee-track">
             <div class="flex items-center gap-10 pr-10 text-gray-400 text-xs font-bold uppercase tracking-widest">
-                <span class="flex items-center gap-2 text-brand-cyan"><i class="fa-solid fa-certificate"></i> C-10 Licensed</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand-gold"></i> Bonded &amp; Insured</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-award text-brand-cyan"></i> BBB Accredited A+</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-star text-brand-gold"></i> 4.9/5 Customer Rated</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-clock text-brand-red"></i> 24/7 Emergency Response</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-hard-hat text-brand-cyan"></i> 20+ Years Field Experience</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-leaf text-brand-gold"></i> EPA Certified Technicians</span>
+                <span class="flex items-center gap-2 text-brand-cyan"><i class="fa-solid fa-house"></i> Residential Electrical</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-building text-brand-gold"></i> Commercial Systems</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-industry text-brand-cyan"></i> Industrial Support</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand-gold"></i> Panel &amp; Surge Protection</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-brand-red"></i> Direct Service Line</span>
             </div>
             <div class="flex items-center gap-10 pr-10 text-gray-400 text-xs font-bold uppercase tracking-widest" aria-hidden="true">
-                <span class="flex items-center gap-2 text-brand-cyan"><i class="fa-solid fa-certificate"></i> C-10 Licensed</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand-gold"></i> Bonded &amp; Insured</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-award text-brand-cyan"></i> BBB Accredited A+</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-star text-brand-gold"></i> 4.9/5 Customer Rated</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-clock text-brand-red"></i> 24/7 Emergency Response</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-hard-hat text-brand-cyan"></i> 20+ Years Field Experience</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-leaf text-brand-gold"></i> EPA Certified Technicians</span>
+                <span class="flex items-center gap-2 text-brand-cyan"><i class="fa-solid fa-house"></i> Residential Electrical</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-building text-brand-gold"></i> Commercial Systems</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-industry text-brand-cyan"></i> Industrial Support</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand-gold"></i> Panel &amp; Surge Protection</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-brand-red"></i> Direct Service Line</span>
             </div>
         </div>
     </div>
@@ -309,6 +375,7 @@
         </div>
     </header>
 
+    <main id="main-content">
     <!-- Hero Section -->
     <section class="relative min-h-[90vh] flex items-center py-12 md:py-20 overflow-hidden">
         <!-- Background Light Effects mimicking reference image -->
@@ -369,7 +436,7 @@
                 </div>
                 <div class="hidden md:flex animate-float-delay absolute -bottom-6 -right-4 z-20 items-center gap-2 bg-brand-navyDark/90 border border-brand-gold/40 px-4 py-2 rounded-2xl shadow-neon-gold backdrop-blur-md">
                     <i class="fa-solid fa-star text-brand-gold"></i>
-                    <span class="text-[11px] font-bold text-white">4.9/5 Rated Service</span>
+                    <span class="text-[11px] font-bold text-white">Property-Focused Service</span>
                 </div>
                 <div class="tilt-card relative w-full max-w-[420px] bg-brand-navyLight/30 border border-brand-navy p-6 rounded-3xl backdrop-blur-lg shadow-2xl hover:shadow-neon-blue transition-all duration-300" id="hero-card">
                     
@@ -890,20 +957,20 @@
                         <form id="emergency-form" class="space-y-4" onsubmit="handleEmergencySubmit(event)">
                             <input type="text" id="em-website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Primary Phone Number</label>
+                                <label for="em-phone" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Primary Phone Number</label>
                                 <input type="tel" id="em-phone" placeholder="e.g. (818)-815-7755" required class="w-full bg-brand-navyDark text-white border border-brand-navyLight px-4 py-3 rounded-xl focus:border-brand-red focus:outline-none text-sm font-semibold transition-all">
                             </div>
                             
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Service County</label>
+                                    <label for="em-county" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Service County</label>
                                     <select id="em-county" required class="w-full bg-brand-navyDark text-white border border-brand-navyLight px-4 py-3 rounded-xl focus:border-brand-red focus:outline-none text-sm font-semibold transition-all">
                                         <option value="Los Angeles">Los Angeles</option>
                                         <option value="Orange">Orange County</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Issue Class</label>
+                                    <label for="em-issue" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Issue Class</label>
                                     <select id="em-issue" required class="w-full bg-brand-navyDark text-white border border-brand-navyLight px-4 py-3 rounded-xl focus:border-brand-red focus:outline-none text-sm font-semibold transition-all">
                                         <option value="Power Outage">Power Outage</option>
                                         <option value="Sparks/Smoke">Sparks / Smoke</option>
@@ -914,7 +981,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Description / Location Details</label>
+                                <label for="em-desc" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">Description / Location Details</label>
                                 <textarea id="em-desc" rows="3" placeholder="Enter emergency details, address..." required class="w-full bg-brand-navyDark text-white border border-brand-navyLight px-4 py-3 rounded-xl focus:border-brand-red focus:outline-none text-sm font-semibold transition-all"></textarea>
                             </div>
 
@@ -1027,6 +1094,35 @@
         </div>
     </section>
 
+    <!-- Direct answers for customers and answer engines -->
+    <section id="faq" class="py-20 bg-brand-navy/35 border-y border-brand-navy">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4" data-reveal>
+                <div class="inline-block bg-brand-navy border border-brand-navyLight px-3 py-1 rounded-full text-brand-cyan text-xs font-bold uppercase tracking-widest">Electrical Service Answers</div>
+                <h2 class="header-font text-3xl sm:text-5xl font-black text-white">Clear Answers Before You Call</h2>
+                <p class="text-gray-300">Quick information about Adelpro’s services, coverage, emergency requests, and appointments.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <article class="bg-brand-navyDark/80 border border-brand-navyLight rounded-2xl p-6" data-reveal>
+                    <h3 class="text-xl font-extrabold text-white mb-3">What electrical services does Adelpro provide?</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">Adelpro handles residential, commercial, and industrial electrical work, including panel upgrades, surge protection, generator systems, diagnostics, repairs, and electrical system design.</p>
+                </article>
+                <article class="bg-brand-navyDark/80 border border-brand-navyLight rounded-2xl p-6" data-reveal>
+                    <h3 class="text-xl font-extrabold text-white mb-3">What areas does Adelpro serve?</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">Adelpro serves properties across Los Angeles County and Orange County, California. Call <a class="text-brand-cyan underline" href="tel:+18188157755">(818) 815-7755</a> to confirm availability for your address.</p>
+                </article>
+                <article class="bg-brand-navyDark/80 border border-brand-navyLight rounded-2xl p-6" data-reveal>
+                    <h3 class="text-xl font-extrabold text-white mb-3">How do I request emergency electrical help?</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">Call Adelpro directly or use the emergency request form. For fire, smoke, or immediate danger, leave the area and call 911 first. An online request is not a substitute for emergency services.</p>
+                </article>
+                <article class="bg-brand-navyDark/80 border border-brand-navyLight rounded-2xl p-6" data-reveal>
+                    <h3 class="text-xl font-extrabold text-white mb-3">How can I request an estimate or appointment?</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">Use the consultation form with your contact details, service type, preferred date, and project description. Adelpro will review the request and follow up; submitting a date does not confirm an appointment.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <!-- Standard Contact / Booking Section -->
     <!-- Testimonials Section -->
     <section id="testimonials" class="py-20 relative overflow-hidden bg-brand-navyDark border-t border-brand-navy">
@@ -1117,22 +1213,22 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">First &amp; Last Name</label>
+                                <label for="co-name" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">First &amp; Last Name</label>
                                 <input type="text" id="co-name" placeholder="John Doe" required class="w-full bg-brand-navy border border-brand-navyLight px-4 py-3.5 rounded-xl focus:border-brand-cyan focus:outline-none text-sm font-semibold text-white transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Email Address</label>
+                                <label for="co-email" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Email Address</label>
                                 <input type="email" id="co-email" placeholder="john@example.com" required class="w-full bg-brand-navy border border-brand-navyLight px-4 py-3.5 rounded-xl focus:border-brand-cyan focus:outline-none text-sm font-semibold text-white transition-all">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Phone Number</label>
+                                <label for="co-phone" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Phone Number</label>
                                 <input type="tel" id="co-phone" placeholder="(818)-815-7755" required class="w-full bg-brand-navy border border-brand-navyLight px-4 py-3.5 rounded-xl focus:border-brand-cyan focus:outline-none text-sm font-semibold text-white transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Service Type</label>
+                                <label for="co-service" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Service Type</label>
                                 <select id="co-service" required class="w-full bg-brand-navy border border-brand-navyLight px-4 py-3.5 rounded-xl focus:border-brand-cyan focus:outline-none text-sm font-semibold text-white transition-all">
                                     <option value="Residential Panels">Residential Panel Upgrade</option>
                                     <option value="Surge Protection">Whole-Home Surge Mitigation</option>
@@ -1143,13 +1239,13 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Preferred Date</label>
+                                <label for="co-date" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Preferred Date</label>
                                 <input type="date" id="co-date" required class="w-full bg-brand-navy border border-brand-navyLight px-4 py-3.5 rounded-xl focus:border-brand-cyan focus:outline-none text-sm font-semibold text-white transition-all">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Special Request Details</label>
+                            <label for="co-message" class="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">Special Request Details</label>
                             <textarea id="co-message" rows="4" placeholder="Briefly describe your electrical requirements or any current code safety warnings..." required class="w-full bg-brand-navy border border-brand-navyLight px-4 py-3.5 rounded-xl focus:border-brand-cyan focus:outline-none text-sm font-semibold text-white transition-all"></textarea>
                         </div>
 
@@ -1186,6 +1282,7 @@
         </div>
     </section>
 
+    </main>
     <!-- Footer -->
     <footer class="bg-brand-navyDark border-t border-brand-navy pt-16 pb-8 relative z-10">
         <div class="container mx-auto px-4">
@@ -1252,7 +1349,7 @@
             <!-- Legals &amp; Info -->
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 text-[11px] text-gray-500 font-semibold text-center sm:text-left">
                 <div>
-                    &copy; 2024 Advanced Electrical Protection (Adelpro). All rights reserved. 
+                    &copy; 2026 Advanced Electrical Protection (Adelpro). All rights reserved. 
                 </div>
                 <div class="flex items-center gap-4">
                     <span>Licensed Electricians &bull; Safety Verified</span>
