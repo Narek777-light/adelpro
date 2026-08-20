@@ -36,17 +36,44 @@
           "telephone": "+1-818-815-7755",
           "email": "adelpro1st@gmail.com",
           "description": "Electrical services for residential, commercial, and industrial properties in Los Angeles County and Orange County, California.",
+          "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "17:00"
+          }],
           "areaServed": [
             {"@type": "AdministrativeArea", "name": "Los Angeles County, California"},
             {"@type": "AdministrativeArea", "name": "Orange County, California"}
           ],
-          "contactPoint": [{
-            "@type": "ContactPoint",
-            "telephone": "+1-818-815-7755",
-            "contactType": "customer service",
-            "areaServed": "US-CA",
-            "availableLanguage": "English"
-          }],
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+1-818-815-7755",
+              "contactType": "customer service",
+              "areaServed": "US-CA",
+              "availableLanguage": "English",
+              "hoursAvailable": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "09:00",
+                "closes": "17:00"
+              }
+            },
+            {
+              "@type": "ContactPoint",
+              "telephone": "+1-818-815-7755",
+              "contactType": "emergency dispatch",
+              "areaServed": "US-CA",
+              "availableLanguage": "English",
+              "hoursAvailable": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                "opens": "00:00",
+                "closes": "23:59"
+              }
+            }
+          ],
           "sameAs": ["https://www.instagram.com/adelpro.official/"]
         },
         {
@@ -63,7 +90,8 @@
           "mainEntity": [
             {"@type":"Question","name":"What electrical services does Adelpro provide?","acceptedAnswer":{"@type":"Answer","text":"Adelpro handles residential, commercial, and industrial electrical work, including panel upgrades, surge protection, generator systems, diagnostics, repairs, and electrical system design."}},
             {"@type":"Question","name":"What areas does Adelpro serve?","acceptedAnswer":{"@type":"Answer","text":"Adelpro serves properties across Los Angeles County and Orange County, California. Call to confirm availability for a specific address."}},
-            {"@type":"Question","name":"How do I request emergency electrical help?","acceptedAnswer":{"@type":"Answer","text":"Call Adelpro at (818) 815-7755 or use the emergency request form. For fire, smoke, or immediate danger, leave the area and call 911 first."}},
+            {"@type":"Question","name":"What are Adelpro's hours?","acceptedAnswer":{"@type":"Answer","text":"Regular business hours are Monday through Friday, 9:00 AM to 5:00 PM. Emergency dispatch is available 24 hours a day, 7 days a week."}},
+            {"@type":"Question","name":"How do I request emergency electrical help?","acceptedAnswer":{"@type":"Answer","text":"Emergency dispatch is available 24/7. Call Adelpro at (818) 815-7755 or use the emergency request form. For fire, smoke, or immediate danger, leave the area and call 911 first."}},
             {"@type":"Question","name":"How can I request an estimate or appointment?","acceptedAnswer":{"@type":"Answer","text":"Use the consultation form with your contact details, service type, preferred date, and project description. Adelpro will review the request and follow up."}}
           ]
         }
@@ -289,7 +317,7 @@
                     <i class="fa-solid fa-phone"></i> (818)-815-7755
                 </a>
                 <span class="hidden md:inline">|</span>
-                <a href="#emergency-section" class="bg-white text-brand-red px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-yellow-100 transition-colors">
+                <a href="#emergency" class="bg-white text-brand-red px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-yellow-100 transition-colors">
                     Report Outage
                 </a>
             </div>
@@ -471,7 +499,7 @@
                         <div class="p-3.5 bg-brand-navyDark/90 rounded-xl border border-brand-navy flex items-center justify-between">
                             <span class="text-xs text-gray-300 font-medium">Generator Status</span>
                             <span class="text-xs text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded-full font-bold flex items-center gap-1 animate-pulse">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span> Standby Ready
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span> 24/7 Emergency Dispatch
                             </span>
                         </div>
                     </div>
@@ -927,8 +955,8 @@
                                     <i class="fa-solid fa-clock"></i>
                                 </span>
                                 <div>
-                                    <h4 class="text-white font-bold text-sm">24-Hour Availability</h4>
-                                    <p class="text-xs text-gray-400">Holidays, nights, weekends — we keep crews standby.</p>
+                                    <h4 class="text-white font-bold text-sm">Emergency Dispatch: 24/7</h4>
+                                    <p class="text-xs text-gray-400">Emergency dispatch remains available nights, weekends, and holidays. Regular business hours are 9:00 AM–5:00 PM.</p>
                                 </div>
                             </div>
                         </div>
@@ -1327,7 +1355,7 @@
                         </p>
                         <p class="flex items-start gap-2">
                             <i class="fa-solid fa-clock text-brand-cyan mt-0.5"></i>
-                            <span>Business Hours: Mon - Fri: 9AM - 5PM<br>Emergency Dispatch: 24/7 Live</span>
+                            <span>Regular Business Hours: Mon–Fri, 9:00 AM–5:00 PM<br>Emergency Dispatch: Available 24/7</span>
                         </p>
                     </div>
                 </div>
